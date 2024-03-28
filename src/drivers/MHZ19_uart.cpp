@@ -1,10 +1,3 @@
-/*
-  MHZ19_uart.cpp - MH-Z19 CO2 sensor library for ESP-WROOM-02/32(ESP8266/ESP32) or Arduino
-  version 0.3
-  
-  License MIT
-*/
-
 #include "MHZ19_uart.h"
 #include "Arduino.h"
 
@@ -60,18 +53,6 @@ int MHZ19_uart::getStatus()
 	measurement_t m = readSerialData();
 	return m.state;
 }
-
-// int MHZ19_uart::getCO2PPM()
-// {
-// 	readSerialData();
-// 	return _co2;
-// }
-
-// int MHZ19_uart::getTemperature()
-// {
-// 	readSerialData();
-// 	return _co2temp;
-// }
 
 #ifdef ARDUINO_ARCH_ESP32
 void MHZ19_uart::setHardwareSerialNo(int serialNo)
@@ -130,16 +111,12 @@ measurement_t MHZ19_uart::readSerialData()
 	measurement_t measurement = {};
 	if (buf[0] == 0xff && buf[1] == 0x86 && mhz19_checksum(buf) == buf[MHZ19_uart::RESPONSE_CNT - 1])
 	{
-		// _co2 = buf[2] * 256 + buf[3];
-		// _co2temp = buf[4] - 40;
-		// _co2status = buf[5];
 		measurement.co2_ppm = buf[2] * 256 + buf[3];
 		measurement.temperature = buf[4] - 40;
 		measurement.state = buf[5];
 	}
 	else
 	{
-		// _co2 = _co2temp = _co2status = -1;
 		measurement.co2_ppm = measurement.temperature = measurement.state = -1;
 	}
 
@@ -155,21 +132,4 @@ uint8_t MHZ19_uart::mhz19_checksum(uint8_t com[])
 	}
 	sum = 0xff - sum + 0x01;
 	return sum;
-}
-
-//deprecated
-// int MHZ19_uart::getPPM()
-// {
-// 	return getCO2PPM();
-// }
-// //deprecated
-// int MHZ19_uart::getStatus()
-// {
-// 	return 0;
-// }
-//deprecated
-boolean MHZ19_uart::isWarming()
-{
-	delay(10 * 1000);
-	return true;
 }

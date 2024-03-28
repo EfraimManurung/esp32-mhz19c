@@ -1,10 +1,3 @@
-/*
-  MHZ19_uart.h - MH-Z19 CO2 sensor library for ESP-WROOM-02/32(ESP8266/ESP32) or Arduino
-  version 0.3
-  
-  License MIT
-*/
-
 #ifndef MHZ19_uart_h_
 #define MHZ19_uart_h_
 
@@ -32,19 +25,11 @@ public:
 	void setAutoCalibration(boolean autocalib);
 	void calibrateZero();
 	void calibrateSpan(int ppm);
-
-	// int getCO2PPM();
-	// int getTemperature();
 	measurement_t readSerialData();
 #ifdef ARDUINO_ARCH_ESP32
 	void setHardwareSerialNo(int serialNo);
 #endif
-	//deprecated
-	int getPPM();
-	//deprecated
 	int getStatus();
-	//deprecated
-	boolean isWarming();
 
 protected:
 	void writeCommand(uint8_t com[]);
@@ -53,15 +38,8 @@ protected:
 private:
 	uint8_t mhz19_checksum(uint8_t com[]);
 
-	//measurement_t getSerialData();
-
-	// void readSerialData();
 	static const int REQUEST_CNT = 8;
 	static const int RESPONSE_CNT = 9;
-
-	// int _co2 = 0;
-	// int _co2temp = 0;
-	// int _co2status = 0;
 
 	// serial command
 	uint8_t getppm[REQUEST_CNT] = {0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00};
