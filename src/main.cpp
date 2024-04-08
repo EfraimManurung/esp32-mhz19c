@@ -33,6 +33,7 @@ void loop()
   Serial.println(m.co2_ppm);
   Serial.print("temp: ");
   Serial.println(m.temperature);
+  Serial.println(); // Add a newline character
 
   delay(5000);
 }
